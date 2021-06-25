@@ -160,12 +160,3 @@
     font-weight:bold;
     font-family:sans-serif;
 }
-
-.restart-container {
-    -moz-animation-name: restart-rotate;
-    -o-animation-name: restart-rotate;
-    -webkit-animation-name: restart-rotate;
-    animation-name: restart-rotate;
-    animation-duration: 2s;
-    animation-timing-function: ease-in-out;
-}
