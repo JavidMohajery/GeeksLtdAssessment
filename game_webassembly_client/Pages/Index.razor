@@ -1,0 +1,86 @@
+﻿@page "/"
+@inject IJSRuntime _jsRunTime
+
+<div id="container">
+    <div class="nationalityBox dropzone" id="nationalityBox1">""Japaness""</div>
+    <div class="nationalityBox dropzone" id="nationalityBox2">""Chiness""</div>
+    <div class="nationalityBox dropzone" id="nationalityBox3">""Korean""</div>
+    <div class="nationalityBox dropzone" id="nationalityBox4">""Thai""</div>
+    
+    @*<div class="defaultPath" id="newCandidate" draggable="true" ondragstart="event.dataTransfer.setData('text/plain',null)">
+    </div>*@
+    @if (Game.IsOver)
+    {
+        <div id="restart-container" style="@style" @onclick="RestartTheGame">
+            <img class="@restartContainerCssClasses" src="images/restart.png" />
+        </div>
+    }
+    <div id="score-board">
+        <span>Score: @Game?.TotalPoints</span>
+    </div>
+</div>
+@code{
+    public Game Game { get; set; }
+    private DotNetObjectReference<Index> objRef;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        Game = new Game();
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+
+
+        if (firstRender)
+        {
+            await GenerateCandidate();
+        }
+    }
+
+    public async Task GenerateCandidate()
+    {
+        Game.GenerateCandidate();
+        await _jsRunTime.GenerateNewRound(Game.Candidate);
+
+        objRef = DotNetObjectReference.Create(this);
+        await _jsRunTime.AppStart(objRef);
+    }
+    [JSInvokable]
+    public void GuessAndGo(int guess)
+    {
+        Guess(guess);
+        AssessGuess();
+        InvokeAsync(StateHasChanged);
+        if (!Game.IsOver)
+            GenerateCandidate().GetAwaiter();
+    }
+
+
+    public void Dispose()
+    {
+        objRef?.Dispose();
+    }
+
+    private void Guess(int nationalityId)
+    {
+        Game.Guess(nationalityId);
+    }
+    private void AssessGuess()
+    {
+        Game.AssessGuess();
+    }
+    private void RestartTheGame()
+    {
+        restartContainerclassList.Add("restart-container");
+        InvokeAsync(StateHasChanged);
+        Task.Delay(1000);
+        Game = new Game();
+        GenerateCandidate().GetAwaiter();
+    }
+    private string style = "";
+    private List<string> restartContainerclassList { get; set; } = new List<string>();
+    private string restartContainerCssClasses  => string.Join(" ", restartContainerclassList);
+}

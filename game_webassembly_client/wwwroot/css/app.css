@@ -1,0 +1,169 @@
+﻿
+#container {
+    width: 100vw;
+    height: 100vh;
+    background-color: lawngreen;
+    margin: 0 auto;
+    position: relative;
+    padding: 1px;
+}
+
+.nationalityBox {
+    width: 20vw;
+    height: 20vh;
+    background-color: indianred;
+    position: absolute;
+}
+
+#nationalityBox1 {
+    left: 0;
+    top: 0;
+    background-image: url(../images/1200px-Flag_of_Japan.png);
+    background-size: cover;
+}
+
+#nationalityBox2 {
+    right: 0;
+    background-image: url(../images/china.png);
+    background-size: cover;
+}
+
+#nationalityBox3 {
+    left: 0;
+    bottom: 0;
+    background-image: url(../images/south_korea.png);
+    background-size: cover;
+}
+
+#nationalityBox4 {
+    right: 0;
+    bottom: 0;
+    background-image: url(../images/1200px-Flag_of_Thailand.png);
+    background-size: cover;
+}
+
+.defaultPath {
+    animation-name: candidateDefaultPath;
+    animation-duration: 3s;
+    animation-delay: 0.5s;
+    animation-timing-function: linear;
+    background-size: cover;
+}
+
+#newCandidate {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    /*background-image: url(../images/Aigou.jpg);*/
+    background-size: cover;
+    /* position:relative; */
+    position: absolute;
+    left: 45%;
+    top: 0;
+}
+
+@keyframes candidateDefaultPath {
+
+    0% {
+        left: 45%;
+        top: 0;
+        opacity: 1;
+    }
+
+    25% {
+        left: 45%;
+        top: 25%;
+    }
+
+    50% {
+        left: 45%;
+        top: 50%;
+        opacity: 0.5;
+    }
+
+    75% {
+        left: 45%;
+        top: 75%;
+    }
+
+    100% {
+        left: 45%;
+        top: 80%;
+        opacity: 0;
+    }
+}
+
+.topleft-animate {
+    animation-name: topLeft;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+.bottomleft-animate {
+    animation-name: bottomLeft;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+.bottomright-animate {
+    animation-name: bottomRight;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+.topright-animate {
+    animation-name: topRight;
+    animation-duration: 3s;
+    /* animation-delay: 0.5s; */
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+
+#restart-container {
+    position: absolute;
+    top: 50%;
+    left: 45%;
+}
+
+    #restart-container img {
+        width: 100px;
+        height: 100px;
+    }
+
+#score-board{
+    position:absolute;
+    left:40%;
+    top:80%;
+    font-size:4rem;
+    font-weight:bold;
+    font-family:sans-serif;
+}
+
+.restart-container {
+    -moz-animation-name: restart-rotate;
+    -o-animation-name: restart-rotate;
+    -webkit-animation-name: restart-rotate;
+    animation-name: restart-rotate;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes restart-rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+@-moz-keyframes restart-rotate {
+}
+
+@-webkit-keyframes restart-rotate {
+}
