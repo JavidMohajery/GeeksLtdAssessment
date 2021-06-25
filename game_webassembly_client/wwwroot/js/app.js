@@ -1,5 +1,4 @@
 ﻿window.generateNewRound = function (newCandidateObj) {
-    //debugger
     var container = document.getElementById("container");
 
     var candidateDiv = document.createElement('div');
@@ -8,47 +7,19 @@
     candidateDiv.setAttribute('ondragstart', "event.dataTransfer.setData('text/plain',null)");
     candidateDiv.classList.add('defaultPath');
     candidateDiv.style.backgroundImage = 'Url(../images/' + newCandidateObj.image + ')';
-    
-    container.appendChild(candidateDiv);
 
-    //var candidateBox = document.getElementById("newCandidate");
-    //candidateBox.classList.add('defaultPath');
+    container.appendChild(candidateDiv);
 }
 
-window.appStart = function (objRef) {
-    console.log(objRef);
+window.appStart = function (dotnetHelper) {
     var candidateBox = document.getElementById("newCandidate");
-    /*candidateBox.classList.add('defaultPath');*/
-    // candidateBox.classList.add('candidateBox');
-    // candidateBox.style.animationName = "candidateDefaultPath";
+
     candidateBox.onanimationend = (e) => {
-/*        debugger*/
-        //if (e.animationName == "candidateDefaultPath") {
-        //candidateBox.style.opacity = 1;
-        ////}
-
-        //candidateBox.style.left = '50%';
-        //candidateBox.style.top = 0;
-        pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-
-        candidateBox.classList.remove('defaultPath', 'topleft-animate', 'bottomleft-animate', 'bottomright-animate', 'topright-animate');
         var container = document.getElementById("container");
         container.removeChild(candidateBox);
-    //    candidateBox.classList.add('defaultPath');
-    //    addAnimation(`
-    //@keyframes candidateDefaultPath {
 
-    //    0%    {  left:50%; top:0; opacity: 1;}
-    //    25%   {  left:50%; top:25%;}
-    //    50%   {  left:50%;top:50%;}
-    //    75%   {  left:50%;top:75%;opacity: 1;}
-    //    100%  {  left:50%;top:100%;opacity: 0;}
-    //  }
-        //`);
         var nationalityId = getGuessNationalityId(e.animationName);
-        objRef.invokeMethodAsync('GuessAndGo', nationalityId);
-        console.log('Animation ended');
-        console.log(e);
+        dotnetHelper.invokeMethodAsync('GuessAndGo', nationalityId);
     };
     function getGuessNationalityId(animationName) {
         var result;
@@ -66,6 +37,7 @@ window.appStart = function (objRef) {
         }
         return result;
     }
+
     let dynamicStyles = null;
 
     function addAnimation(body) {
@@ -75,7 +47,7 @@ window.appStart = function (objRef) {
             document.head.appendChild(dynamicStyles);
         }
 
-        
+
         dynamicStyles.sheet.insertRule(body, dynamicStyles.length);
     }
 
@@ -86,13 +58,7 @@ window.appStart = function (objRef) {
     function dragElement(elmnt) {
         var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
         var startTop, startLeft, endTop, endLeft;
-        if (document.getElementById(elmnt.id + "header")) {
-            /* if present, the header is where you move the DIV from:*/
-            document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-        } else {
-            /* otherwise, move the DIV from anywhere inside the DIV:*/
-            elmnt.onmousedown = dragMouseDown;
-        }
+        elmnt.onmousedown = dragMouseDown;
 
         function dragMouseDown(e) {
 
@@ -120,14 +86,8 @@ window.appStart = function (objRef) {
             element.style.top = newTop;
             startLeft = normalizePixelValue(element.style.left);
             startTop = normalizePixelValue(element.style.top);
-
-            console.log("startLeft", startLeft);
-            console.log("startTop", startTop);
         }
-        function normalizePixelValue(value) {
-            var newValue = value.substring(0, value.length - 2);
-            return Number(newValue);
-        }
+        
         function elementDrag(e) {
             e = e || window.event;
             e.preventDefault();
@@ -149,55 +109,70 @@ window.appStart = function (objRef) {
             endLeft = normalizePixelValue(element.style.left);
             endTop = normalizePixelValue(element.style.top);
 
-            console.log("endLeft", endLeft);
-            console.log("endTop", endTop);
             makeTransition();
         }
+
+        function normalizePixelValue(value) {
+            var newValue = value.substring(0, value.length - 2);
+            return Number(newValue);
+        }
         function makeTransition() {
+            if (Math.abs(endLeft - startLeft) < 20 && Math.abs(endTop - startTop) < 20) {
+                candidateBox.classList.remove('defaultPath', 'topleft-animate', 'bottomleft-animate', 'bottomright-animate', 'topright-animate', 'middle-end');
+                candidateBox.classList.add('middle-end');
+
+                addAnimation(`
+                            @keyframes middleEnd{
+                                from    {  top:${endTop}; left: ${endLeft}; opacity: 1;}
+                                to   {  top:80%; left: 45%;  opacity: 0;}
+                            }
+                            `);
+                return;
+            }
 
             if (endLeft < startLeft && endTop < startTop) {
-                candidateBox.classList.remove('defaultPath', 'topleft-animate', 'bottomleft-animate', 'bottomright-animate', 'topright-animate');
+                candidateBox.classList.remove('defaultPath', 'topleft-animate', 'bottomleft-animate', 'bottomright-animate', 'topright-animate', 'middle-end');
                 candidateBox.classList.add('topleft-animate');
 
                 addAnimation(`
-            @keyframes topLeft{
-                from    {  top:${endTop}; left: ${endLeft}; opacity: 1;}
-                to   {  top:0; left: 0;  opacity: 0;}
-            }
-            `);
+                            @keyframes topLeft{
+                                from    {  top:${endTop}; left: ${endLeft}; opacity: 1;}
+                                to   {  top:0; left: 0;  opacity: 0;}
+                            }
+                            `);
             }
             if (endLeft < startLeft && endTop >= startTop) {
-                candidateBox.classList.remove('defaultPath', 'topleft-animate', 'bottomleft-animate', 'bottomright-animate', 'topright-animate');
+                candidateBox.classList.remove('defaultPath', 'topleft-animate', 'bottomleft-animate', 'bottomright-animate', 'topright-animate', 'middle-end');
                 candidateBox.classList.add('bottomleft-animate');
 
                 addAnimation(`
-            @keyframes bottomLeft{
-                from    {  top:${endTop}; left: ${endLeft}; opacity: 1;}
-                to   {  top:80%; left: 0;  opacity: 0;}
-            }
-            `);
+                            @keyframes bottomLeft{
+                                from    {  top:${endTop}; left: ${endLeft}; opacity: 1;}
+                                to   {  top:80%; left: 0;  opacity: 0;}
+                            }
+                            `);
             }
             if (endLeft >= startLeft && endTop < startTop) {
-                candidateBox.classList.remove('defaultPath', 'topleft-animate', 'bottomleft-animate', 'bottomright-animate', 'topright-animate');
+                candidateBox.classList.remove('defaultPath', 'topleft-animate', 'bottomleft-animate', 'bottomright-animate', 'topright-animate', 'middle-end');
                 candidateBox.classList.add('topright-animate');
 
                 addAnimation(`
-            @keyframes topRight{
-                from    {  top:${endTop}; left: ${endLeft}; opacity: 1;}
-                to   {  top:0; left: 80%;  opacity: 0;}
-            }
-            `);
+                            @keyframes topRight{
+                                from    {  top:${endTop}; left: ${endLeft}; opacity: 1;}
+                                to   {  top:0; left: 80%;  opacity: 0;}
+                            }
+                            `);
             }
             if (endLeft >= startLeft && endTop >= startTop) {
-                candidateBox.classList.remove('defaultPath', 'topleft-animate', 'bottomleft-animate', 'bottomright-animate', 'topright-animate');
+                candidateBox.classList.remove('defaultPath', 'topleft-animate', 'bottomleft-animate', 'bottomright-animate', 'topright-animate', 'middle-end');
                 candidateBox.classList.add('bottomright-animate');
 
                 addAnimation(`
-            @keyframes bottomRight{
-                from    {  top:${endTop}; left: ${endLeft}; opacity: 1;}
-                to   {  top:80%; left: 80%;  opacity: 0;}
-            }
-            `);
+                            @keyframes bottomRight{
+                                from    {  top:${endTop}; left: ${endLeft}; opacity: 1;}
+                                to   {  top:80%; left: 80%;  opacity: 0;}
+                            }
+                            `);
             }
         }
     }

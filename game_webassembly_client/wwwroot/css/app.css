@@ -16,28 +16,29 @@
 }
 
 #nationalityBox1 {
-    left: 0;
-    top: 0;
+    left: 15px;
+    top: 15px;
     background-image: url(../images/1200px-Flag_of_Japan.png);
     background-size: cover;
 }
 
 #nationalityBox2 {
-    right: 0;
+    right: 15px;
+    top:15px;
     background-image: url(../images/china.png);
     background-size: cover;
 }
 
 #nationalityBox3 {
-    left: 0;
-    bottom: 0;
+    left: 15px;
+    bottom: 15px;
     background-image: url(../images/south_korea.png);
     background-size: cover;
 }
 
 #nationalityBox4 {
-    right: 0;
-    bottom: 0;
+    right: 15px;
+    bottom: 15px;
     background-image: url(../images/1200px-Flag_of_Thailand.png);
     background-size: cover;
 }
@@ -53,6 +54,7 @@
 #newCandidate {
     width: 150px;
     height: 150px;
+    border-radius:50%;
     margin: 0 auto;
     /*background-image: url(../images/Aigou.jpg);*/
     background-size: cover;
@@ -95,33 +97,39 @@
 
 .topleft-animate {
     animation-name: topLeft;
-    animation-duration: 3s;
-    animation-timing-function: linear;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
 }
 
 .bottomleft-animate {
     animation-name: bottomLeft;
-    animation-duration: 3s;
-    animation-timing-function: linear;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
 }
 
 .bottomright-animate {
     animation-name: bottomRight;
-    animation-duration: 3s;
-    animation-timing-function: linear;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
 }
 
 .topright-animate {
     animation-name: topRight;
-    animation-duration: 3s;
+    animation-duration: 1.5s;
     /* animation-delay: 0.5s; */
-    animation-timing-function: linear;
+    animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
 }
 
+.middle-end {
+    animation-name: middleEnd;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+}
 
 #restart-container {
     position: absolute;

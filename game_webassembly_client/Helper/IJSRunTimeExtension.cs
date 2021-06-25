@@ -18,9 +18,5 @@ namespace game_webassembly_client.Helper
         {
             await jSRuntime.InvokeVoidAsync("generateNewRound", candidate);
         }
-        public static async ValueTask Method2(this IJSRuntime jSRuntime, string message)
-        {
-            await jSRuntime.InvokeVoidAsync("", "");
-        }
     }
 }
