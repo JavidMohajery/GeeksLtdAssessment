@@ -2,17 +2,29 @@
 @inject IJSRuntime _jsRunTime
 
 <div id="container">
-    <div class="nationalityBox dropzone" id="nationalityBox1">""Japaness""</div>
-    <div class="nationalityBox dropzone" id="nationalityBox2">""Chiness""</div>
-    <div class="nationalityBox dropzone" id="nationalityBox3">""Korean""</div>
-    <div class="nationalityBox dropzone" id="nationalityBox4">""Thai""</div>
+    <div class="nationalityBox" id="nationalityBox1">
+        <span>""Japaness""</span>
+    </div>
+    <div class="nationalityBox" id="nationalityBox2">
+        <span>""Chiness""</span>
+    </div>
+    <div class="nationalityBox" id="nationalityBox3">
+        <span>""Korean""</span>
+    </div>
+    <div class="nationalityBox" id="nationalityBox4">
+        <span>""Thai""</span>
+    </div>
     
     @*<div class="defaultPath" id="newCandidate" draggable="true" ondragstart="event.dataTransfer.setData('text/plain',null)">
     </div>*@
     @if (Game.IsOver)
     {
-        <div id="restart-container" style="@style" @onclick="RestartTheGame">
-            <img class="@restartContainerCssClasses" src="images/restart.png" />
+        <div id="restart-container">
+            <img @onclick="RestartTheGame" src="images/restart.png" />
+            <div>
+                <span style="font-size:3rem;font-weight:bold;">Play again</span>
+            </div>
+            
         </div>
     }
     <div id="score-board">
@@ -72,13 +84,8 @@
     }
     private void RestartTheGame()
     {
-        restartContainerclassList.Add("restart-container");
         InvokeAsync(StateHasChanged);
-        Task.Delay(1000);
         Game = new Game();
         GenerateCandidate().GetAwaiter();
     }
-    private string style = "";
-    private List<string> restartContainerclassList { get; set; } = new List<string>();
-    private string restartContainerCssClasses  => string.Join(" ", restartContainerclassList);
 }

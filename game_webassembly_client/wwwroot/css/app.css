@@ -13,6 +13,8 @@
     height: 20vh;
     background-color: indianred;
     position: absolute;
+    font-size:2rem;
+    font-weight: bold;
 }
 
 #nationalityBox1 {
@@ -135,6 +137,14 @@
     position: absolute;
     top: 50%;
     left: 45%;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -ms-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
 }
 
     #restart-container img {
@@ -156,22 +166,6 @@
     -o-animation-name: restart-rotate;
     -webkit-animation-name: restart-rotate;
     animation-name: restart-rotate;
-    animation-duration: 1s;
+    animation-duration: 2s;
     animation-timing-function: ease-in-out;
-}
-
-@keyframes restart-rotate {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(0deg);
-    }
-}
-
-@-moz-keyframes restart-rotate {
-}
-
-@-webkit-keyframes restart-rotate {
 }
